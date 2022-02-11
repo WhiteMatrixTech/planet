@@ -8,6 +8,7 @@ body {
     background-image: url("https://storageapi.fleek.co/82da0466-48d9-4f6f-a026-269ea27f0827-bucket/planet/cloud.png");
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center center;
 }
 
 .container {

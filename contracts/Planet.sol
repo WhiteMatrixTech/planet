@@ -17,7 +17,8 @@ contract Planet is IPlanet, ERC721, ReentrancyGuard, ERC721Enumerable, Ownable {
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
-    string public baseURI = "";
+    string public baseURI =
+        "https://storageapi.fleek.co/82da0466-48d9-4f6f-a026-269ea27f0827-bucket/plantbox-random/";
     string public defaultBoxURI =
         "https://storageapi.fleek.co/82da0466-48d9-4f6f-a026-269ea27f0827-bucket/planet/default.jpg";
 
@@ -36,7 +37,10 @@ contract Planet is IPlanet, ERC721, ReentrancyGuard, ERC721Enumerable, Ownable {
         require(_exists(tokenId), "URI query for nonexistent token");
 
         if (bytes(baseURI).length > 0) {
-            return string(abi.encodePacked(_baseURI(), tokenId));
+            return
+                string(
+                    abi.encodePacked(_baseURI(), tokenId.toString(), ".json")
+                );
         } else {
             return defaultBoxURI;
         }

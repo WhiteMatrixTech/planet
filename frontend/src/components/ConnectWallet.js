@@ -6,8 +6,7 @@ export function ConnectWallet({ connectWallet, networkError, dismiss }) {
   return (
     <div>
       <div className="row">
-        <div className="col-24 text-center">
-          {/* Metamask network should be set to Localhost:8545. */}
+        <div className="col-6 text-center">
           {networkError && (
             <NetworkErrorMessage 
               message={networkError} 
@@ -15,7 +14,7 @@ export function ConnectWallet({ connectWallet, networkError, dismiss }) {
             />
           )}
         </div>
-        <div className="col-12 p-4 text-right">
+        <div className="col-6 p-4 text-right">
           <button
             className="btn btn-primary"
             type="button"
