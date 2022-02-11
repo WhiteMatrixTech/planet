@@ -16,7 +16,7 @@ cd planet
 yarn install
 ```
 
-Once installed, let's run Hardhat's testing network:
+Once installed, let's run Hardhat's unit test:
 
 ```sh
 yarn test
