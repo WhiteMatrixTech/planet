@@ -27,7 +27,7 @@ Then, prepare your account to deploy contract, set your bsc testnet account priv
 
 ```json
 {
-  ""privateKey"": "XXXXX"
+  "privateKey": "XXXXX"
 }
 ```
 
