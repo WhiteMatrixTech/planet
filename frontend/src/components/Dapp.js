@@ -131,7 +131,7 @@ export class Dapp extends React.Component {
 
         <div className="row content">
         
-          <div className="col-12">
+          <div className="col-6 col-sm-8">
             <div className="imgWrapper">
               <img src={demo}/>
             </div>

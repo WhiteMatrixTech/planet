@@ -5,6 +5,9 @@
 body {
     width: 100vw;
     height: 100vh;
+    background-image: url("https://storageapi.fleek.co/82da0466-48d9-4f6f-a026-269ea27f0827-bucket/planet/cloud.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .container {
@@ -17,6 +20,16 @@ body {
     height: calc(100vh - 60px);
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+.content> div {
+    
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 50px 0;
+    background-color: #ffffffe0;
+    border-radius: 15px;
 }
 
 .inline {
