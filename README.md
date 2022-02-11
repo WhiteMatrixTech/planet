@@ -15,8 +15,8 @@ The first things you need to do are cloning this repository and installing its
 dependencies:
 
 ```sh
-git clone https://github.com/nomiclabs/hardhat-hackathon-boilerplate.git
-cd hardhat-hackathon-boilerplate
+git clone https://github.com/WhiteMatrixTech/planet.git
+cd planet
 npm install
 ```
 

@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+.container {
+    max-width: initial !important;
+    height: 100vh;
+}
+
+.content {
+    
+    height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+}
+
+.inline {
+    padding: 15px 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inline  button.mint {
+    width: 102px;
+}
+
+.count {
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.imgWrapper {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.imgWrapper img {
+    width: 100px;
+}

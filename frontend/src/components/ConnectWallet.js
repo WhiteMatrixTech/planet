@@ -4,9 +4,9 @@ import { NetworkErrorMessage } from "./NetworkErrorMessage";
 
 export function ConnectWallet({ connectWallet, networkError, dismiss }) {
   return (
-    <div className="container">
-      <div className="row justify-content-md-center">
-        <div className="col-12 text-center">
+    <div>
+      <div className="row">
+        <div className="col-24 text-center">
           {/* Metamask network should be set to Localhost:8545. */}
           {networkError && (
             <NetworkErrorMessage 
@@ -15,10 +15,9 @@ export function ConnectWallet({ connectWallet, networkError, dismiss }) {
             />
           )}
         </div>
-        <div className="col-6 p-4 text-center">
-          <p>Please connect to your wallet.</p>
+        <div className="col-12 p-4 text-right">
           <button
-            className="btn btn-warning"
+            className="btn btn-primary"
             type="button"
             onClick={connectWallet}
           >

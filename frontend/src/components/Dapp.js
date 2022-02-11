@@ -14,10 +14,13 @@ import contractAddress from "../contracts/contract-address.json";
 import { NoWalletDetected } from "./NoWalletDetected";
 import { ConnectWallet } from "./ConnectWallet";
 import { Loading } from "./Loading";
-import { Transfer } from "./Transfer";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
-import { NoTokensMessage } from "./NoTokensMessage";
+import { Mint } from "./Mint";
+
+
+
+import demo from '../static/imgs/demo.gif'
 
 // This is the Hardhat Network id, you might change it in the hardhat.config.js
 // Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
@@ -53,6 +56,8 @@ export class Dapp extends React.Component {
       txBeingSent: undefined,
       transactionError: undefined,
       networkError: undefined,
+
+      minting: false,
     };
 
     this.state = this.initialState;
@@ -87,28 +92,19 @@ export class Dapp extends React.Component {
     if (!this.state.tokenData || !this.state.balance) {
       return <Loading />;
     }
-
+    
     // If everything is loaded, we render the application.
     return (
-      <div className="container p-4">
+      <div className="container">
         <div className="row">
-          <div className="col-12">
-            <h1>
-              {this.state.tokenData.name} ({this.state.tokenData.symbol})
-            </h1>
+          <div className="col-12 text-right">
             <p>
               Welcome <b>{this.state.selectedAddress}</b>, you have{" "}
               <b>
-                {this.state.balance.toString()} {this.state.tokenData.symbol}
+                {this.state.balance.toString()} {this.state.tokenData.name}
               </b>
-              .
             </p>
           </div>
-        </div>
-
-        <hr />
-
-        <div className="row">
           <div className="col-12">
             {/* 
               Sending a transaction isn't an immidiate action. You have to wait
@@ -132,33 +128,27 @@ export class Dapp extends React.Component {
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-12">
-            {/*
-              If the user has no tokens, we don't show the Tranfer form
-            */}
-            {this.state.balance.eq(0) && (
-              <NoTokensMessage selectedAddress={this.state.selectedAddress} />
-            )}
 
-            {/*
-              This component displays a form that the user can use to send a 
-              transaction and transfer some tokens.
-              The component doesn't have logic, it just calls the transferTokens
-              callback.
-            */}
-            {this.state.balance.gt(0) && (
-              <Transfer
-                transferTokens={(to, amount) =>
-                  this._transferTokens(to, amount)
-                }
-                tokenSymbol={this.state.tokenData.symbol}
-              />
-            )}
+        <div className="row content">
+        
+          <div className="col-12">
+            <div className="imgWrapper">
+              <img src={demo}/>
+            </div>
+            
+            <div className="row">
+              <div className="col-12">
+                <Mint mint={(count) => this._mint(count)} minting={this.state.minting}/>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     );
+  }
+
+  componentDidMount() {
+    this._connectWallet()
   }
 
   componentWillUnmount() {
@@ -269,6 +259,48 @@ export class Dapp extends React.Component {
     this.setState({ balance });
   }
 
+  async _mint(count) {
+    try {
+      this._dismissTransactionError();
+      this.setState({minting: true})
+
+      const tx = await this._token.buy(count, {value: count * 1000000000000000});
+      this.setState({ txBeingSent: tx.hash });
+
+      // We use .wait() to wait for the transaction to be mined. This method
+      // returns the transaction's receipt.
+      const receipt = await tx.wait();
+
+      // The receipt, contains a status flag, which is 0 to indicate an error.
+      if (receipt.status === 0) {
+        // We can't know the exact error that made the transaction fail when it
+        // was mined, so we throw this generic one.
+        throw new Error("Transaction failed");
+      }
+
+      
+      // If we got here, the transaction was successful, so you may want to
+      // update your state. Here, we update the user's balance.
+      await this._updateBalance();
+    } catch (error) {
+      // We check the error code to see if this error was produced because the
+      // user rejected a tx. If that's the case, we do nothing.
+      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
+        return;
+      }
+
+      // Other errors are logged and stored in the Dapp's state. This is used to
+      // show them to the user, and for debugging.
+      console.error(error);
+      this.setState({ transactionError: error });
+    } finally {
+      // If we leave the try/catch, we aren't sending a tx anymore, so we clear
+      // this part of the state.
+      this.setState({ txBeingSent: undefined });
+      this.setState({minting: false})
+    }
+  }
+
   // This method sends an ethereum transaction to transfer tokens.
   // While this action is specific to this application, it illustrates how to
   // send a transaction.
@@ -356,14 +388,16 @@ export class Dapp extends React.Component {
 
   // This method checks if Metamask selected network is Localhost:8545 
   _checkNetwork() {
-    if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
-      return true;
-    }
+    // if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
+    //   return true;
+    // }
 
-    this.setState({ 
-      networkError: 'Please connect Metamask to Localhost:8545'
-    });
+    // this.setState({ 
+    //   networkError: 'Please connect Metamask to Localhost:8545'
+    // });
 
-    return false;
+    // return false;
+
+    return true;
   }
 }

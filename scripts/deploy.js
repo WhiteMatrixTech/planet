@@ -10,23 +10,15 @@ async function main() {
     );
   }
 
-  // ethers is available in the global scope
-  const [deployer] = await ethers.getSigners();
-  console.log(
-    "Deploying the contracts with the account:",
-    await deployer.getAddress()
-  );
-
-  console.log("Account balance:", (await deployer.getBalance()).toString());
-
-  const Token = await ethers.getContractFactory("Token");
-  const token = await Token.deploy();
-  await token.deployed();
-
-  console.log("Token address:", token.address);
+  
+  const Planet = await ethers.getContractFactory('Planet');
+  console.log('Deploying Planet...');
+  const planet = await Planet.deploy();
+  await planet.deployed();
+  console.log('Planet deployed to:', planet.address);
 
   // We also save the contract's artifacts and address in the frontend directory
-  saveFrontendFiles(token);
+  saveFrontendFiles(planet);
 }
 
 function saveFrontendFiles(token) {
@@ -42,7 +34,7 @@ function saveFrontendFiles(token) {
     JSON.stringify({ Token: token.address }, undefined, 2)
   );
 
-  const TokenArtifact = artifacts.readArtifactSync("Token");
+  const TokenArtifact = artifacts.readArtifactSync("Planet");
 
   fs.writeFileSync(
     contractsDir + "/Token.json",
