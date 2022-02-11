@@ -22,6 +22,16 @@ Once installed, let's run Hardhat's testing network:
 yarn test
 ```
 
+
+Then, prepare your account to deploy contract, set your bsc testnet account mnemonic in screts.json:
+
+```json
+{
+  "mnemonic": "XXXXX"
+}
+```
+
+
 Then, on a new terminal, go to the repository's root folder and run this to
 deploy your contract:
 
