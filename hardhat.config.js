@@ -1,8 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
 
-const { mnemonic } = require('./secrets.json');
-// 0x3322db6130Cd3b48304cF08C51C8292a42709971
-
+const { privateKey } = require('./secrets.json');
 
 require("./tasks/openBox");
 
@@ -13,13 +11,14 @@ module.exports = {
       url: "https://data-seed-prebsc-1-s1.binance.org:8545",
       chainId: 97,
       gasPrice: 20000000000,
-      accounts: {mnemonic: mnemonic}
+      accounts: [privateKey]
     },
     mainnet: {
       url: "https://bsc-dataseed.binance.org/",
       chainId: 56,
       gasPrice: 20000000000,
-      accounts: {mnemonic: mnemonic}
+      accounts: [privateKey]
     }
   },
 };
+
