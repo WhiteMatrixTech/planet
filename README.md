@@ -23,11 +23,11 @@ yarn test
 ```
 
 
-Then, prepare your account to deploy contract, set your bsc testnet account mnemonic in screts.json:
+Then, prepare your account to deploy contract, set your bsc testnet account privateKey in secrets.json:
 
 ```json
 {
-  "mnemonic": "XXXXX"
+  ""privateKey"": "XXXXX"
 }
 ```
 
