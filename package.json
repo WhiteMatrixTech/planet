@@ -12,6 +12,7 @@
   "scripts": {
     "test": "hardhat test",
     "deploy:testnet": "hardhat run ./scripts/deploy.js --network testnet",
+    "deploy:goerli": "hardhat run ./scripts/deploy.js --network goerli",
     "open:testnet": "hardhat --network testnet openBox --uri https://storageapi.fleek.co/82da0466-48d9-4f6f-a026-269ea27f0827-bucket/plantbox-random/",
     "start:webapp": "yarn workspace frontend run start"
   },
