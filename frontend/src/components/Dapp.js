@@ -18,15 +18,13 @@ import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { Mint } from "./Mint";
 
-
-
-import demo from '../static/imgs/demo.gif'
+import demo from "../static/imgs/demo.gif";
 import { Minted } from "./Minted";
 
 // This is the Hardhat Network id, you might change it in the hardhat.config.js
 // Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
 // to use when deploying to other networks.
-const HARDHAT_NETWORK_ID = '97'; // bsc test
+const HARDHAT_NETWORK_ID = "97"; // bsc test
 
 // This is an error code that indicates that the user canceled a transaction
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
@@ -81,8 +79,8 @@ export class Dapp extends React.Component {
     // clicks a button. This callback just calls the _connectWallet method.
     if (!this.state.selectedAddress) {
       return (
-        <ConnectWallet 
-          connectWallet={() => this._connectWallet()} 
+        <ConnectWallet
+          connectWallet={() => this._connectWallet()}
           networkError={this.state.networkError}
           dismiss={() => this._dismissNetworkError()}
         />
@@ -94,7 +92,7 @@ export class Dapp extends React.Component {
     if (!this.state.tokenData || !this.state.balance) {
       return <Loading />;
     }
-    
+
     // If everything is loaded, we render the application.
     return (
       <div className="container">
@@ -130,31 +128,33 @@ export class Dapp extends React.Component {
           </div>
         </div>
 
-
         <div className="row content">
-        
           <div className="col-6 col-sm-8">
             <div className="imgWrapper">
-              <img src={demo} alt="nft demo"/>
+              <img src={demo} alt="nft demo" />
             </div>
-            
+
             <div className="row">
               <div className="col-12">
-                <Mint mint={(count) => this._mint(count)} minting={this.state.minting} />
+                <Mint
+                  mint={(count) => this._mint(count)}
+                  minting={this.state.minting}
+                />
               </div>
             </div>
           </div>
         </div>
 
-        <Minted newPlanets={this.state.planets} close={() => this._closeMinted()}/>
+        <Minted
+          newPlanets={this.state.planets}
+          close={() => this._closeMinted()}
+        />
       </div>
     );
   }
 
   componentDidMount() {
-    this._connectWallet()
-
-    
+    this._connectWallet();
   }
 
   componentWillUnmount() {
@@ -171,11 +171,6 @@ export class Dapp extends React.Component {
     // It returns a promise that will resolve to the user's address.
     const [selectedAddress] = await window.ethereum.enable();
 
-    // await window.ethereum.request({
-    //   method: 'wallet_addEthereumChain',
-    //   params: [bscTest]
-    // });
-
     // // Once we have the address, we can initialize the application.
 
     // // First we check the network
@@ -191,14 +186,14 @@ export class Dapp extends React.Component {
       // `accountsChanged` event can be triggered with an undefined newAddress.
       // This happens when the user removes the Dapp from the "Connected
       // list of sites allowed access to your addresses" (Metamask > Settings > Connections)
-      // To avoid errors, we reset the dapp state 
+      // To avoid errors, we reset the dapp state
       if (newAddress === undefined) {
         return this._resetState();
       }
-      
+
       this._initialize(newAddress);
     });
-    
+
     // We reset the dapp state if the network is changed
     window.ethereum.on("networkChanged", ([networkId]) => {
       this._stopPollingData();
@@ -235,7 +230,6 @@ export class Dapp extends React.Component {
       TokenArtifact.abi,
       this._provider.getSigner(0)
     );
-
   }
 
   // The next two methods are needed to start and stop polling data. While
@@ -272,15 +266,17 @@ export class Dapp extends React.Component {
   }
 
   _closeMinted() {
-    this.setState({planets: []})
+    this.setState({ planets: [] });
   }
 
   async _mint(count) {
     try {
       this._dismissTransactionError();
-      this.setState({minting: true})
+      this.setState({ minting: true });
 
-      const tx = await this._token.buy(count, {value: count * 1000000000000000});
+      const tx = await this._token.buy(count, {
+        value: count * 1000000000000000,
+      });
       this.setState({ txBeingSent: tx.hash });
 
       // We use .wait() to wait for the transaction to be mined. This method
@@ -298,23 +294,21 @@ export class Dapp extends React.Component {
 
       const newIds = [];
       if (receipt.events) {
-          receipt.events
-              .filter(event => event.event === "Minted" && event.args)
-              .forEach(event => {
-                  const newId = event.args.tokenId;
-                  newIds.push(newId);
-              });
+        receipt.events
+          .filter((event) => event.event === "Minted" && event.args)
+          .forEach((event) => {
+            const newId = event.args.tokenId;
+            newIds.push(newId);
+          });
       }
-
 
       const newPlanets = [];
-      for(let id of newIds) {
-        newPlanets.push({id, uri: (await this._token.tokenURI(id))})
+      for (let id of newIds) {
+        newPlanets.push({ id, uri: await this._token.tokenURI(id) });
       }
 
-      this.setState({planets: newPlanets})
+      this.setState({ planets: newPlanets });
 
-      
       // If we got here, the transaction was successful, so you may want to
       // update your state. Here, we update the user's balance.
       await this._updateBalance();
@@ -333,7 +327,7 @@ export class Dapp extends React.Component {
       // If we leave the try/catch, we aren't sending a tx anymore, so we clear
       // this part of the state.
       this.setState({ txBeingSent: undefined });
-      this.setState({minting: false})
+      this.setState({ minting: false });
     }
   }
 
@@ -422,30 +416,28 @@ export class Dapp extends React.Component {
     this.setState(this.initialState);
   }
 
-  // This method checks if Metamask selected network is Localhost:8545 
+  // This method checks if Metamask selected network is Localhost:8545
   _checkNetwork() {
     if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
       return true;
     }
 
-    this.setState({ 
-      networkError: 'Please connect Metamask to BSC Testnet'
+    this.setState({
+      networkError: "Please connect Metamask to BSC Testnet",
     });
 
     return false;
-
   }
 }
 
-
-const bscTest = {  
-  chainId: '0x61',
-  chainName: 'BSC Testnet',
-  rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
-  nativeCurrency: {
-    name: 'BSC Testnet ETH',
-    symbol: 'BNB',
-    decimals: 18
-  },
-  blockExplorerUrls: ['https://testnet.bscscan.com']
-}
+// const bscTest = {
+//   chainId: "0x61",
+//   chainName: "BSC Testnet",
+//   rpcUrls: ["https://bsc-testnet.public.blastapi.io"],
+//   nativeCurrency: {
+//     name: "BSC Testnet ETH",
+//     symbol: "BNB",
+//     decimals: 18,
+//   },
+//   blockExplorerUrls: ["https://testnet.bscscan.com"],
+// };
