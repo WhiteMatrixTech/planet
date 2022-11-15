@@ -7,7 +7,7 @@ smart contract development.
 
 ## Quick start
 
-The first things you need to do are cloning this repository and installing its
+The first things you need to do are clone this repository and install its
 dependencies:
 
 ```sh
@@ -16,21 +16,23 @@ cd planet
 yarn install
 ```
 
-Once installed, let's run Hardhat's unit test:
+Once installed,set your bsc testnet account privateKey in secrets.example.json:
+
+```json
+{
+  "privateKey": "YOUR_PRIVATE_BSC_TESTNET_ACCOUNT_KEY"
+}
+```
+
+*Don't share your private key with anyone, otherwise you may lose all of your cryptos.*
+
+Then, change the file name from **secrets.example.json**  to **secrets.json**;
+
+let's run Hardhat's unit test:
 
 ```sh
 yarn test
 ```
-
-
-Then, prepare your account to deploy contract, set your bsc testnet account privateKey in secrets.json:
-
-```json
-{
-  "privateKey": "XXXXX"
-}
-```
-
 
 Then, go to the repository's root folder and run this to deploy your contract:
 
@@ -54,6 +56,5 @@ Your environment will have everything you need to build a Dapp powered by Hardha
 - [ethers.js](https://docs.ethers.io/v5/): A JavaScript library for interacting with Ethereum.
 - [Waffle](https://github.com/EthWorks/Waffle/): To have Ethereum-specific Chai assertions/mathers.
 - [A sample frontend/Dapp](./frontend): A Dapp which uses [Create React App](https://github.com/facebook/create-react-app).
-
 
 **Happy _buidling_!**
